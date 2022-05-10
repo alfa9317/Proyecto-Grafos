@@ -1,4 +1,5 @@
 import random
+from nodo import Nodo
 from algoritmos import gMalla, gErdRen, gGilbert, gGeografico, gBarabasiAlbert, gDorogovtsevMendes
 
 
@@ -24,23 +25,34 @@ def main():
         geografico = random.uniform(0.1,1)
         barabasi_albert = random.randint(1,nodos)
 
-        graf = gMalla(*(malla_a, malla_b))
-        graf.aGraphviz(path + graf.id + ".gv")
+        #Graphs
+        graf = []
 
-        graf = gErdRen(nodos, erdren)
-        graf.aGraphviz(path + graf.id + ".gv")
+        graf.append(gMalla(*(malla_a, malla_b)))
+        graf.append(gErdRen(nodos, erdren))
+        graf.append(gGilbert(nodos, gilbert, dirigido=False, auto=False))
+        graf.append(gGeografico(nodos, geografico))
+        graf.append(gBarabasiAlbert(nodos, barabasi_albert, auto=False))
+        graf.append(gDorogovtsevMendes(nodos, dirigido=False))
 
-        graf = gGilbert(nodos, gilbert, dirigido=False, auto=False)
-        graf.aGraphviz(path + graf.id + ".gv")
+        #Files
+        for g in graf:
+            g.aGraphviz(path + g.id + ".gv")
 
-        graf = gGeografico(nodos, geografico)
-        graf.aGraphviz(path + graf.id + ".gv")
+        #----------BFS-------------------
+        for g in graf:
+            T = g.BFS(Nodo(0))
+            T.aGraphviz(path + T.id + ".gv")
+        #----------DFS_R--------------------
+        for g in graf:
+            T = g.DFS_R(Nodo(0))
+            T.aGraphviz(path + T.id + ".gv")
+        # ----------DFS_I--------------------
+        for g in graf:
+            T = g.DFS_I(Nodo(0))
+            T.aGraphviz(path + T.id + ".gv")
+            print(T.id)
 
-        graf = gBarabasiAlbert(nodos, barabasi_albert, auto=False)
-        graf.aGraphviz(path + graf.id + ".gv")
-
-        graf = gDorogovtsevMendes(nodos, dirigido=False)
-        graf.aGraphviz(path + graf.id + ".gv")
 
 if __name__ == "__main__":
         main()
