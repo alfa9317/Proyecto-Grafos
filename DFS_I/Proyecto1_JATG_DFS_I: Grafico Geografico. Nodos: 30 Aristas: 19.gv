@@ -1,0 +1,7 @@
+graph DFS_I: Grafico Geografico. Nodos: 30 Aristas: 19  {
+0;
+27;
+20;
+0 -- 27;
+27 -- 20;
+}

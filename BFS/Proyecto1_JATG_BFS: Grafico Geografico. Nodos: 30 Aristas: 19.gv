@@ -1,0 +1,7 @@
+graph BFS: Grafico Geografico. Nodos: 30 Aristas: 19  {
+0;
+20;
+27;
+0 -- 20;
+0 -- 27;
+}

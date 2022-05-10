@@ -1,0 +1,5 @@
+graph DFS_R: Grafo de Erdos-Renyi. Nodos: 100 Aristas:149  {
+0;
+(2, 0);
+2 -- 0;
+}

@@ -1,0 +1,7 @@
+graph DFS_R: Grafo de Malla. Nodos: 20 Aristas:5  {
+0;
+(0, 1);
+(0, 5);
+0 -- 1;
+0 -- 5;
+}
