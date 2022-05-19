@@ -1,10 +1,24 @@
 import random
 from nodo import Nodo
-from algoritmos import gMalla, gErdRen, gGilbert, gGeografico, gBarabasiAlbert, gDorogovtsevMendes
+from algoritmos import gMalla, gErdRen, gGilbert, gGeografico, gBarabasiAlbert, gDorogovtsevMendes, grafGenerator, dummyGraf
 
 
 def main():
     path = ("Proyecto1_JATG_")
+    #----------Dijkstra---------------
+
+    grafo = grafGenerator(5, dirigido=True)
+    grafo.aGraphviz(path + grafo.id + ".gv")
+    T = grafo.Dijkstra(Nodo(0))
+    T.aGraphviz(path + T.id + ".gv", label=True)
+    grafo = grafGenerator(10, dirigido=True)
+    grafo.aGraphviz(path + grafo.id + ".gv")
+    T = grafo.Dijkstra(Nodo(0))
+    T.aGraphviz(path + T.id + ".gv", label=True)
+    grafo = grafGenerator(20, dirigido=True)
+    grafo.aGraphviz(path + grafo.id + ".gv")
+    T = grafo.Dijkstra(Nodo(0))
+    T.aGraphviz(path + T.id + ".gv", label=True)
 
     nTotal=[30, 100, 500]
     for nodos in nTotal:
@@ -34,25 +48,34 @@ def main():
         graf.append(gGeografico(nodos, geografico))
         graf.append(gBarabasiAlbert(nodos, barabasi_albert, auto=False))
         graf.append(gDorogovtsevMendes(nodos, dirigido=False))
+        #graf.append(grafGenerator(nodos, dirigido=True))
 
         #Files
-        for g in graf:
-            g.aGraphviz(path + g.id + ".gv")
+        #for g in graf:
+            #g.aGraphviz(path + g.id + ".gv")
 
         #----------BFS-------------------
-        for g in graf:
-            T = g.BFS(Nodo(0))
-            T.aGraphviz(path + T.id + ".gv")
+        #for g in graf:
+            #T = g.BFS(Nodo(0))
+            #print(T)
+            #T.aGraphviz(path + T.id + ".gv")
         #----------DFS_R--------------------
-        for g in graf:
-            T = g.DFS_R(Nodo(0))
-            T.aGraphviz(path + T.id + ".gv")
+        #for g in graf:
+            #T = g.DFS_R(Nodo(0))
+            #T.aGraphviz(path + T.id + ".gv")
         # ----------DFS_I--------------------
-        for g in graf:
-            T = g.DFS_I(Nodo(0))
-            T.aGraphviz(path + T.id + ".gv")
-            print(T.id)
-
+        #for g in graf:
+            #T = g.DFS_I(Nodo(0))
+            #T.aGraphviz(path + T.id + ".gv")
+            #print(T.id)
+        # -------------Dijkstra--------------
+        #grafo = dummyGraf()
+        #T = grafo.Dijkstra(Nodo(0))
+        #T.aGraphviz(path + T.id + ".gv")
+        grafo = grafGenerator(nodos, dirigido=True)
+        grafo.aGraphviz(path + grafo.id + ".gv")
+        T = grafo.Dijkstra(Nodo(0))
+        T.aGraphviz(path + T.id + ".gv", label=True)
 
 if __name__ == "__main__":
         main()
