@@ -1,0 +1,47 @@
+digraph Dijkstra: Grafo Aleatorio. Nodos: 30  {
+0; [label="Nodo: 0 Nodo inicial: 0 Peso: 0"]
+1; [label="Nodo: 1 Nodo inicial: 0 Peso: 121"]
+2; [label="Nodo: 2 Nodo inicial: 0 Peso: 92"]
+4; [label="Nodo: 4 Nodo inicial: 0 Peso: 37"]
+5; [label="Nodo: 5 Nodo inicial: 0 Peso: 17"]
+7; [label="Nodo: 7 Nodo inicial: 0 Peso: 50"]
+8; [label="Nodo: 8 Nodo inicial: 0 Peso: 136"]
+10; [label="Nodo: 10 Nodo inicial: 0 Peso: 108"]
+11; [label="Nodo: 11 Nodo inicial: 0 Peso: 103"]
+12; [label="Nodo: 12 Nodo inicial: 0 Peso: 127"]
+13; [label="Nodo: 13 Nodo inicial: 0 Peso: 72"]
+14; [label="Nodo: 14 Nodo inicial: 0 Peso: 59"]
+15; [label="Nodo: 15 Nodo inicial: 0 Peso: 66"]
+16; [label="Nodo: 16 Nodo inicial: 0 Peso: 83"]
+17; [label="Nodo: 17 Nodo inicial: 0 Peso: 123"]
+18; [label="Nodo: 18 Nodo inicial: 0 Peso: 108"]
+19; [label="Nodo: 19 Nodo inicial: 0 Peso: 76"]
+20; [label="Nodo: 20 Nodo inicial: 0 Peso: 104"]
+21; [label="Nodo: 21 Nodo inicial: 0 Peso: 107"]
+23; [label="Nodo: 23 Nodo inicial: 0 Peso: 24"]
+24; [label="Nodo: 24 Nodo inicial: 0 Peso: 100"]
+26; [label="Nodo: 26 Nodo inicial: 0 Peso: 168"]
+29; [label="Nodo: 29 Nodo inicial: 0 Peso: 114"]
+21 -> 1;
+15 -> 2;
+5 -> 4;
+0 -> 5;
+4 -> 7;
+29 -> 8;
+21 -> 10;
+16 -> 11;
+11 -> 12;
+7 -> 13;
+7 -> 14;
+14 -> 15;
+19 -> 16;
+20 -> 17;
+13 -> 18;
+13 -> 19;
+24 -> 20;
+24 -> 21;
+5 -> 23;
+15 -> 24;
+1 -> 26;
+18 -> 29;
+}

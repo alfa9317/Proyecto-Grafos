@@ -1,0 +1,19 @@
+digraph Dijkstra: Grafo Aleatorio. Nodos: 10  {
+0; [label="Nodo: 0 Nodo inicial: 0 Peso: 0"]
+1; [label="Nodo: 1 Nodo inicial: 0 Peso: 111"]
+2; [label="Nodo: 2 Nodo inicial: 0 Peso: 145"]
+3; [label="Nodo: 3 Nodo inicial: 0 Peso: 106"]
+4; [label="Nodo: 4 Nodo inicial: 0 Peso: 37"]
+5; [label="Nodo: 5 Nodo inicial: 0 Peso: 87"]
+6; [label="Nodo: 6 Nodo inicial: 0 Peso: 79"]
+8; [label="Nodo: 8 Nodo inicial: 0 Peso: 101"]
+9; [label="Nodo: 9 Nodo inicial: 0 Peso: 93"]
+6 -> 1;
+3 -> 2;
+8 -> 3;
+0 -> 4;
+6 -> 5;
+4 -> 6;
+6 -> 8;
+5 -> 9;
+}
