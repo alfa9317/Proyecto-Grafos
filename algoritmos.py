@@ -36,7 +36,6 @@ def verification(type, x, y):
 
 
 def gMalla(n, m, dirigido=False):
-
     verification(0, n, m)
 
     totalN = m * n
@@ -85,9 +84,42 @@ def gMalla(n, m, dirigido=False):
 
     return graf
 
+def dummyGraf(dirigido=True):
+    graf = Grafo(id=f"Grafo. Nodos: {8} Aristas:{15}", dirigido=dirigido)
+    nodos = graf.nodos
+    for nodo in range(8):
+        graf.agregarNodo(Nodo(nodo))
+
+    aristas=[Arista(nodos[0], nodos[1]), Arista(nodos[0], nodos[5]), Arista(nodos[0], nodos[6]), Arista(nodos[1], nodos[2]), Arista(nodos[5], nodos[2]), Arista(nodos[5], nodos[4]), Arista(nodos[5], nodos[6]), Arista(nodos[6], nodos[4]), Arista(nodos[6], nodos[7]),
+             Arista(nodos[4], nodos[3]), Arista(nodos[4], nodos[7]), Arista(nodos[3], nodos[2]), Arista(nodos[3], nodos[7]), Arista(nodos[2], nodos[4]), Arista(nodos[2], nodos[7])]
+
+    for arista in aristas:
+        graf.agregarArista(arista)
+
+    return graf
+
+def grafGenerator(n, maxAXNodo = 4, dirigido=False):
+
+    graf = Grafo(id=f"Grafo Aleatorio. Nodos: {n}", dirigido=dirigido)
+    nodos = graf.nodos
+    rand_node = random.randrange
+    for nodo in range(n):
+        graf.agregarNodo(Nodo(nodo))
+
+    for nodo in range(n):
+        num_a = random.randrange(1, maxAXNodo)
+        while num_a != 0:
+            a = nodo
+            b = rand_node(n)
+            if a == b:
+                continue
+            graf.agregarArista(Arista(nodos[a], nodos[b]))
+            num_a = num_a - 1
+
+    return graf
+
 
 def gErdRen(n, m, dirigido=False, auto=False):
-
     verification(1, n, m)
 
     graf = Grafo(id=f"Grafo de Erdos-Renyi. Nodos: {n} Aristas:{m}", dirigido=dirigido)
@@ -110,7 +142,6 @@ def gErdRen(n, m, dirigido=False, auto=False):
 
 
 def gGilbert(n, p, dirigido=False, auto=False):
-
     verification(2, n, p)
 
     graf = Grafo(id=f"Grafo Gilbert. Nodos: {n} Aristas: {int(p * 100)}", dirigido=dirigido)
