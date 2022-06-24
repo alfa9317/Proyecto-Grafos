@@ -1,6 +1,8 @@
 from arista import Arista
+from nodo import Nodo
 from random import randrange
 import math
+import time
 
 class Grafo(object):
 
@@ -35,7 +37,7 @@ class Grafo(object):
             a, b = arista_id
             return (a, b) in self.aristas or (b, a) in self.aristas
 
-    def aGraphviz(self, filename, label = False):
+    def aGraphviz(self, filename, labeln = False, labela = False):
 
         conector = "--"
         dir = "graph"
@@ -46,14 +48,22 @@ class Grafo(object):
         with open(filename, 'w') as f:
             f.write(f"{dir} {self.id} " + " {\n")
             for nodo in self.nodos:
-                if label == True:
+                if labeln == True:
                     thislabel = self.nodos[nodo].atributos["label"]
                     f.write(f"{nodo}; "+f"[label={thislabel}]\n")
                 else:
                     f.write(f"{nodo};\n")
             for arista in self.aristas.values():
-                f.write(f"{arista.a} {conector} {arista.b};\n")
+                if labela == True:
+                    thislabel = arista.atributos["label"]
+                    f.write(f"{arista.a} {conector} {arista.b}; "+f"[label={thislabel}]\n")
+                else:
+                    f.write(f"{arista.a} {conector} {arista.b};\n")
             f.write("}")
+
+    def sorted_dic(self, dict):
+        dict = {k: v for k, v in sorted(dict.items(), key=lambda item: item[1])}
+        return dict
 
     def actualization(self, dict):
         if len(dict) != 0:
@@ -162,6 +172,229 @@ class Grafo(object):
 
         return T
 
+    def KruskalD(self):
+        T = Grafo(id = f"KruskalD: {self.id}", dirigido = False)
+        aristas = []
+
+        print(f"\n👾Árbol a {len(self.nodos)} nodos:\n")
+
+        def refresh(grupoNod, cont):
+            for nodo in self.nodos:
+                if self.nodos[nodo].atributos["grupo"] == grupoNod:
+                    self.nodos[nodo].atributos["grupo"] = cont
+        for nodo in self.nodos:
+            self.nodos[nodo].atributos["grupo"] = 0
+        for nodo in self.nodos:
+            grupo = self.nodos[nodo].atributos["grupo"]
+            print(f"Nodo {nodo}: Grupo {grupo}")
+        #arr = [4, 6, 16, 24, 23, 5, 8, 10, 21, 11, 14, 9, 7, 18]
+        for i, arista in enumerate(self.aristas):
+            self.aristas[arista].atributos["peso"] = randrange(1, 50)
+            peso = self.aristas[arista].atributos["peso"]
+            self.aristas[arista].atributos["label"] = f'"Peso: {peso}"'
+            print(f"Arista: {self.aristas[arista].id} Peso: {peso}")
+            a = f"{self.aristas[arista].a}"
+            b = f"{self.aristas[arista].b}"
+            item = [int(a), int(b), int(peso)]
+            aristas.append(item)
+        aristasFinal = []
+        print(f"Aristas: {aristas}")
+        aristas = sorted(aristas, key=lambda aristas:aristas[2])
+        print(f"Aristas Ordenadas Ascendentemente: {aristas}")
+
+        cont = 1
+        for arista in aristas:
+            nodo1 = arista[0]
+            nodo2 = arista[1]
+            grupoNod1 = self.nodos[nodo1].atributos["grupo"]
+            grupoNod2 = self.nodos[nodo2].atributos["grupo"]
+            if grupoNod1 != grupoNod2:
+                aristasFinal.append(arista)
+                if grupoNod1 != 0:
+                    refresh(grupoNod1, cont)
+                else:
+                    self.nodos[nodo1].atributos["grupo"] = cont
+                if grupoNod2 != 0:
+                    refresh(grupoNod2, cont)
+                else:
+                    self.nodos[nodo2].atributos["grupo"] = cont
+                cont = cont + 1
+            elif (grupoNod1 == 0) and (grupoNod2 == 0):
+                aristasFinal.append(arista)
+                self.nodos[nodo1].atributos["grupo"] = cont
+                self.nodos[nodo2].atributos["grupo"] = cont
+                cont = cont + 1
+
+        for nodo in self.nodos:
+            grupo = self.nodos[nodo].atributos["grupo"]
+            print(f"Nodo {nodo}: Grupo {grupo}")
+        print(f"Aristas Finales (nodo 1, nodo 2, peso arista): {aristasFinal}\n\n")
+
+        for i, nodo in enumerate(self.nodos):
+            T.agregarNodo(self.nodos[nodo])
+
+        for arista in self.aristas:
+            a = f"{self.aristas[arista].a}"
+            b = f"{self.aristas[arista].b}"
+            for arista2 in aristasFinal:
+                n1 = arista2[0]
+                n2 = arista2[1]
+                if ((int(a) == n1) and (int(b) == n2)) or ((int(a) == n2) and (int(b) == n1)):
+                    T.agregarArista(self.aristas[arista])
+
+        return T
+
+    def KruskalI(self):
+        print("Arbol de Kruskal Inverso:")
+        T = Grafo(id=f"KruskalI: {self.id}", dirigido=False)
+        aristas = []
+        descubierto = []
+        f = []
+        #arr = [4, 6, 16, 24, 23, 5, 8, 10, 21, 11, 14, 9, 7, 18]
+
+        print(f"\n👾Árbol a {len(self.nodos)} nodos:\n")
+
+        def conectEval(a, u=0):
+            while True:
+                tempAristas = (arista for arista in a if u in arista)
+                for arista in tempAristas:
+                    v = arista[1] if u == arista[0] else arista[0]
+                    if v not in descubierto:
+                        f.append((u, v))
+                if not f:
+                    break
+                nod1, nod2 = f.pop()
+                if nod2 not in descubierto:
+                    descubierto.append(nod2)
+                    u = nod2
+
+            if (len(descubierto) != len(self.nodos)):
+                #print("Grafo se desconecta")
+                #print("------")
+                return False
+            else:
+                #print("Grafo sigue conectado")
+                #print("------")
+                return True
+
+        for i, arista in enumerate(self.aristas):
+            self.aristas[arista].atributos["peso"] = randrange(1, 50)
+            peso = self.aristas[arista].atributos["peso"]
+            self.aristas[arista].atributos["label"] = f'"Peso: {peso}"'
+            print(f"Arista: {self.aristas[arista].id} Peso: {peso}")
+            a = f"{self.aristas[arista].a}"
+            b = f"{self.aristas[arista].b}"
+            item = [int(a), int(b), int(peso)]
+            aristas.append(item)
+
+        print(f"Aristas: {aristas}")
+        aristas = sorted(aristas, key=lambda aristas:aristas[2], reverse=True)
+        print(f"Aristas ordenadas descendentemente: {aristas}")
+        temp_aristas = aristas.copy()
+
+        for arista in aristas:
+            index = temp_aristas.index(arista)
+            del temp_aristas[index]
+            descubierto = []
+            res = conectEval(temp_aristas)
+            if res == False:
+                temp_aristas.append(arista)
+
+        print(f"Aristas de árbol resultante (nodo1,nodo2,peso): {temp_aristas}\n\n")
+
+        for i, nodo in enumerate(self.nodos):
+            T.agregarNodo(self.nodos[nodo])
+
+        for arista in self.aristas:
+            a = f"{self.aristas[arista].a}"
+            b = f"{self.aristas[arista].b}"
+            for arista2 in temp_aristas:
+                n1 = arista2[0]
+                n2 = arista2[1]
+                if ((int(a) == n1) and (int(b) == n2)) or ((int(a) == n2) and (int(b) == n1)):
+                    T.agregarArista(self.aristas[arista])
+
+        return T
+
+    def Prim(self):
+        print("Arbol de Prim:")
+        T = Grafo(id=f"Prim: {self.id}", dirigido=False)
+        aristas = []
+        aristasFinal = []
+        pila = []
+        u = 0
+        #arr = [4, 6, 16, 24, 23, 5, 8, 10, 21, 11, 14, 9, 7, 18]
+        nodeCont = 0
+
+        print(f"\n👾Árbol a {len(self.nodos)} nodos:\n")
+
+        for nodo in self.nodos:
+            self.nodos[nodo].atributos["grupo"] = 0
+        for nodo in self.nodos:
+            grupo = self.nodos[nodo].atributos["grupo"]
+            print(f"Nodo {nodo}: Grupo {grupo}")
+
+        for i, arista in enumerate(self.aristas):
+            self.aristas[arista].atributos["peso"] = randrange(1, 50)
+            peso = self.aristas[arista].atributos["peso"]
+            self.aristas[arista].atributos["label"] = f'"Peso: {peso}"'
+            print(f"Arista: {self.aristas[arista].id} Peso: {peso}")
+            a = f"{self.aristas[arista].a}"
+            b = f"{self.aristas[arista].b}"
+            item = [int(a), int(b), int(peso)]
+            aristas.append(item)
+
+        print(f"Aristas: {aristas}")
+
+        while nodeCont < (len(self.nodos)-1):
+            self.nodos[u].atributos["grupo"] = 1
+            nodeCont = nodeCont + 1
+
+            tempAristas = (arista for arista in aristas if u in arista)
+
+            for arista in tempAristas:
+                v = arista[1] if u == arista[0] else arista[0]
+                p = arista[2]
+                gu = self.nodos[u].atributos["grupo"]
+                gv = self.nodos[v].atributos["grupo"]
+
+                pila.append([u, v, p])
+
+            print(f"Pila de aristas: {pila}")
+            pila = sorted(pila, key=lambda pila: pila[2])
+            print(f"Pila ordenada: {pila}")
+
+            while True:
+                gu = self.nodos[pila[0][0]].atributos["grupo"]
+                gv = self.nodos[pila[0][1]].atributos["grupo"]
+                if (gu == 1 and gv == 0):
+                    u = pila[0][1]
+                    aristasFinal.append(pila[0])
+                    del pila[0]
+                    break
+                else:
+                    del pila[0]
+
+            print(f"Aristas Final (nodo1,nodo2,peso): {aristasFinal}")
+
+        for i, nodo in enumerate(self.nodos):
+            grupo = self.nodos[nodo].atributos["grupo"]
+            print(f"Nodo {nodo}: Grupo {grupo}")
+            T.agregarNodo(self.nodos[nodo])
+
+        for arista in self.aristas:
+            a = f"{self.aristas[arista].a}"
+            b = f"{self.aristas[arista].b}"
+            for arista2 in aristasFinal:
+                n1 = arista2[0]
+                n2 = arista2[1]
+                if ((int(a) == n1) and (int(b) == n2)) or ((int(a) == n2) and (int(b) == n1)):
+                    T.agregarArista(self.aristas[arista])
+
+        print("\n\n")
+
+        return T
+
 
     def BFS(self, s):
 
@@ -229,9 +462,11 @@ class Grafo(object):
         while True:
             aristas = (arista for arista in self.aristas if u in arista)
             for arista in aristas:
+                print(arista)
                 v = arista[1] if u == arista[0] else arista[0]
                 if v not in descubierto:
                     f.append((u, v))
+            print("--------")
             if not f:
                 break
 
