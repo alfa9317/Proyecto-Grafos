@@ -1,0 +1,11 @@
+graph KruskalD: Grafo Aleatorio. Nodos: 5  {
+0;
+1;
+2;
+3;
+4;
+0 -- 1; [label="Peso: 46"]
+0 -- 2; [label="Peso: 15"]
+2 -- 3; [label="Peso: 19"]
+3 -- 4; [label="Peso: 26"]
+}

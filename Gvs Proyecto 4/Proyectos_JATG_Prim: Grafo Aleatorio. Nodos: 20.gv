@@ -1,0 +1,36 @@
+graph Prim: Grafo Aleatorio. Nodos: 20  {
+0;
+1;
+2;
+3;
+4;
+5;
+6;
+7;
+8;
+9;
+10;
+11;
+12;
+13;
+14;
+15;
+16;
+17;
+18;
+19;
+0 -- 13; [label="Peso: 19"]
+2 -- 3; [label="Peso: 9"]
+3 -- 4; [label="Peso: 19"]
+7 -- 6; [label="Peso: 15"]
+9 -- 5; [label="Peso: 4"]
+9 -- 16; [label="Peso: 13"]
+10 -- 9; [label="Peso: 8"]
+11 -- 1; [label="Peso: 10"]
+11 -- 10; [label="Peso: 22"]
+12 -- 17; [label="Peso: 10"]
+14 -- 15; [label="Peso: 45"]
+15 -- 8; [label="Peso: 10"]
+18 -- 13; [label="Peso: 27"]
+19 -- 13; [label="Peso: 8"]
+}

@@ -1,0 +1,21 @@
+graph KruskalI: Grafo Aleatorio. Nodos: 10  {
+0;
+1;
+2;
+3;
+4;
+5;
+6;
+7;
+8;
+9;
+1 -- 7; [label="Peso: 14"]
+2 -- 3; [label="Peso: 6"]
+4 -- 2; [label="Peso: 21"]
+5 -- 8; [label="Peso: 27"]
+6 -- 2; [label="Peso: 26"]
+7 -- 2; [label="Peso: 19"]
+8 -- 9; [label="Peso: 24"]
+9 -- 0; [label="Peso: 7"]
+9 -- 3; [label="Peso: 1"]
+}
