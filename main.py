@@ -1,6 +1,7 @@
 import random
 from nodo import Nodo
 from algoritmos import gMalla, gErdRen, gGilbert, gGeografico, gBarabasiAlbert, gDorogovtsevMendes, grafGenerator, dummyGraf
+from disposicion import spring
 
 path = ("Proyectos_JATG_")
 
@@ -131,13 +132,71 @@ def dijkstraCall():
         T = grafo.Dijkstra(Nodo(0))
         T.aGraphviz(path + T.id + ".gv", labeln=True)
 
+def springCall():
+
+    def malla(nodos):
+        malla_a = random.randint(2, nodos)
+        malla_b = 0
+        if (nodos % malla_a == 0):
+            malla_b = nodos / malla_a
+        else:
+            while malla_b == 0:
+                malla_a -= 1
+                if (nodos % malla_a == 0):
+                    malla_b = nodos / malla_a
+        malla_a = int(malla_a)
+        malla_b = int(malla_b)
+        grafo = gMalla(*(malla_a, malla_b))
+        print(f"Malla: {nodos}")
+        return grafo
+
+    def erdosRenyi(nodos):
+        erdren = random.randint(nodos + 1, nodos * 2)
+        grafo = gErdRen(nodos, erdren)
+        print(f"ErdosRenyi: {nodos}")
+        return grafo
+
+    def gilbert(nodos):
+        gilbert = random.uniform(0.1, 1)
+        grafo = gGilbert(nodos, gilbert, dirigido=False, auto=False)
+        print(f"Gilbert: {nodos}")
+        return grafo
+
+    def geografico(nodos):
+        geografico = random.uniform(0.1, 1)
+        grafo = gGeografico(nodos, geografico)
+        print(f"Geográfico: {nodos}")
+        return grafo
+
+    def barabasiAlbert(nodos):
+        barabasi_albert = random.randint(1, nodos)
+        grafo = gBarabasiAlbert(nodos, barabasi_albert, auto=False)
+        print(f"Barabasi Albert: {nodos}")
+        return grafo
+
+    def dorogovtsevMendes(nodos):
+        grafo = gDorogovtsevMendes(nodos, dirigido=False)
+        print(f"Dorogovtsev Mendes: {nodos}")
+        return grafo
+
+    nTotal = [100, 500]
+
+    for n in nTotal:
+        spring(malla(n))
+        spring(erdosRenyi(n))
+        spring(gilbert(n))
+        spring(geografico(n))
+        spring(barabasiAlbert(n))
+        spring(dorogovtsevMendes(n))
+
+
 def mainProgram():
     print("¡Bienvenido!")
     option = input("Selecciona:\n0)Salir\n1)Grafo Malla\n2)Grafo Erdos-Renyi\n3)Grafo Gilbert"
                    "\n4)Grafo Geográfico\n5)Grafo Barabási-Albert\n6)Grafo Dorogovtsev-Mendes"
                    "\n7)Árbol BFS\n8)Árbol DFSR\n9)Árbol DFSI"
                    "\n10)Árbol KruskalD\n11)Árbol KruskalI\n12)Árbol Prim"
-                   "\n13)Árbol Dijkstra\n👉🏻")
+                   "\n13)Árbol Dijkstra\n14)Spring\n👉🏻")
     print("Seleccionaste: " + option)
     runAlgorithm(int(option))
 def runAlgorithm(option = 0):
@@ -169,6 +228,8 @@ def runAlgorithm(option = 0):
         primCall()
     elif option == 13:
         dijkstraCall()
+    elif option == 14:
+        springCall()
     else:
         print("Error: Tu selección no corresponde con las opciones")
 
