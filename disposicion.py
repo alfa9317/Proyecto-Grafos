@@ -18,6 +18,7 @@ def dibujar(g):
     dibujarNodos(g)
     pygame.display.update()
 
+
 def spring(g):
 
     inicializar(g)
@@ -41,6 +42,30 @@ def spring(g):
         dibujar(g)
 
         cont += 1
+
+    pygame.quit()
+
+
+def fruchterman_reginold(g):
+    reloj = pygame.time.Clock()
+
+    inicializar(g)
+    dibujar(g)
+
+    checker = True
+
+    while checker:
+
+        reloj.tick(especificaciones["fps"])
+
+        for e in pygame.event.get():
+
+            if e.type == pygame.QUIT:
+                checker = False
+
+        pantalla.fill(colores["fondo"])
+        actualizar(g)
+        dibujar(g)
 
     pygame.quit()
 
