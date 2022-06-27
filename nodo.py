@@ -2,6 +2,7 @@ class Nodo(object):
 
     def __init__(self, id, atributos=None):
         self.id = id
+        self.enlace=[]
 
         if atributos is None:
             self.atributos = {}
